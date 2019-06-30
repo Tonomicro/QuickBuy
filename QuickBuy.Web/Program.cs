@@ -21,5 +21,7 @@ namespace QuickBuy.Web
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
 
+
+
     }
 }
