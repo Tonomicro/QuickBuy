@@ -1,5 +1,6 @@
-import { Component } from "@angular/core"
+import { Component, OnInit } from "@angular/core"
 import { Usuario } from "../../modelo/usuario";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-login",
@@ -7,22 +8,29 @@ import { Usuario } from "../../modelo/usuario";
   styleUrls: ["./login.component.css"]
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+    
   public direito = "Direitos autorais para Mo Linda";
   public enderecoImagem = "https://scontent-lax3-1.cdninstagram.com/v/t51.2885-15/e35/s240x240/67740804_181988219490062_2585105947045385111_n.jpg?_nc_ht=scontent-lax3-1.cdninstagram.com&oh=a9e7d7a631b52f7ce71e3e6350c3935f&oe=5DD9FD3C&ig_cache_key=MjExNzA2Njg3ODQ5NzUyNDI1Mw%3D%3D.2";
   public titulo = "titulo da imagem";
 
   public usuario;
   public usuarioAutenticado: boolean;
+  public returnUrl: string;
 
-  constructor() {
+  constructor(private router: Router, private activatedRouter: ActivatedRoute) {
+  }
+
+  ngOnInit(): void {
+    this.returnUrl = this.activatedRouter.snapshot.queryParams['returnUrl'];
     this.usuario = new Usuario();
   }
 
   entrar() {
     
-    if (this.usuario.email == 'amor' && this.usuario.senha == '123') {
-      this.usuarioAutenticado = true;
+    if (this.usuario.email == 'amor@com.com' && this.usuario.senha == '123') {
+      sessionStorage.setItem("usuario-autenticado", "1");
+      this.router.navigate([this.returnUrl]);
     }
   }
 
