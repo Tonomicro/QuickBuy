@@ -34,7 +34,10 @@
         Senha deve ser preenchido
       </div>
     </div>
-    <button class="btn btn-primary btn-block" type="submit" (click)="entrar();">Entrar</button>
+    <button class="btn btn-primary btn-block mb-03" type="submit" (click)="entrar();">Entrar</button>
+    <div class="alert alert-danger" *ngIf="mensagem">
+      {{mensagem}}
+    </div>
   </form>
   <img [src]="enderecoImagem" [title]="titulo" />
   <div class="alert alert-primary" role="alert" *ngIf="usuarioAutenticado">
