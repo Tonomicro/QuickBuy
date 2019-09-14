@@ -5,7 +5,7 @@
     <input type="email" id="inputEmail" name="email"
            placeholder="Informe o seu email"
            class="form-control"
-           [ngClass] = "{
+           [ngClass]="{
             'is-invalid':email.invalid && (email.dirty || email.touched),
             'is-valid':  email.valid && (email.dirty || email.touched)
            }"
@@ -24,7 +24,7 @@
     <label for="inputSenha" class="sr-only">Senha</label>
     <input type="password" id="inputSenha" name="senha" placeholder="Informe a senha"
            class="form-control"
-            [ngClass] = "{
+           [ngClass]="{
             'is-invalid':senha.invalid && (senha.dirty || senha.touched),
             'is-valid':  senha.valid && (senha.dirty || senha.touched)
            }"
@@ -34,7 +34,12 @@
         Senha deve ser preenchido
       </div>
     </div>
-    <button class="btn btn-primary btn-block mb-03" type="submit" (click)="entrar();">Entrar</button>
+    <button class="btn btn-primary btn-block mb-03" type="submit" (click)="entrar();" [disabled]="ativar_spinner">
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="ativar_spinner"></span>
+      Entrar
+    </button>
+
+
     <div class="alert alert-danger" *ngIf="mensagem">
       {{mensagem}}
     </div>

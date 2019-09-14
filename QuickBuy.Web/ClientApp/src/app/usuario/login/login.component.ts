@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   public usuario;
   public usuarioAutenticado: boolean;
   public returnUrl: string;
+  private ativar_spinner: boolean;
 
   constructor(private router: Router, private activatedRouter: ActivatedRoute, private usuarioServico: UsuarioServico) {
   }
@@ -29,14 +30,16 @@ export class LoginComponent implements OnInit {
   }
 
   entrar() {
-
+    this.ativar_spinner = true;
     this.usuarioServico.verificarUsuario(this.usuario)
       .subscribe(
-        data => {
-          var usuarioRetorno: Usuario;
-          usuarioRetorno = data;
-          sessionStorage.setItem("usuario-autenticado", "1");
-          sessionStorage.setItem("email-usuario", usuarioRetorno.email);
+        usuario_json => {
+          //var usuarioRetorno: Usuario;
+          //usuarioRetorno = data;
+          //sessionStorage.setItem("usuario-autenticado", "1");
+          //sessionStorage.setItem("email-usuario", usuarioRetorno.email);
+
+          this.usuarioServico.usuario = usuario_json;
 
           if (this.returnUrl == null) {
             this.router.navigate(['/']);
@@ -49,6 +52,7 @@ export class LoginComponent implements OnInit {
         err => {
           console.log(err.error);
           this.mensagem = err.error;
+          this.ativar_spinner = false;
         }
       );
   }
