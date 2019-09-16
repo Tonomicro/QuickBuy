@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QuickBuy.Dominio.Contratos;
 using QuickBuy.Dominio.Entidades;
+using System;
 
 namespace QuickBuy.Web.Controllers
 {
@@ -11,7 +12,7 @@ namespace QuickBuy.Web.Controllers
 
         public UsuarioController(IUsuarioRepositorio usuarioRepositorio)
         {
-            _usuarioRepositorio = usuarioRepositorio;                
+            _usuarioRepositorio = usuarioRepositorio;
         }
 
         [HttpPost("VerificarUsuario")]
@@ -20,11 +21,11 @@ namespace QuickBuy.Web.Controllers
             
             try
             {
-                var usuarioRetorno = _usuarioRepositorio.Obter(usuario.Email, usuario.Senha);    
+                var usuarioRetorno = _usuarioRepositorio.Obter(usuario.Email, usuario.Senha);
 
                 if (usuarioRetorno != null)
                 {
-                    return Ok(usuario);
+                    return Ok(usuarioRetorno);
                 }
                 return BadRequest("Usuario ou senha inválidos");
             }
@@ -32,7 +33,29 @@ namespace QuickBuy.Web.Controllers
             {
                 return BadRequest(ex.ToString());
             }
-            
+
+        }
+
+        [HttpPost()]
+        public ActionResult Post([FromBody] Usuario usuario)
+        {
+            try
+            {
+                var usuarioCadastrado = _usuarioRepositorio.Obter(usuario.Email);
+
+                if (usuarioCadastrado != null)
+                {
+                    return BadRequest("Usuario já cadastrado");
+                }
+
+                _usuarioRepositorio.Adicionar(usuario);
+
+                return Ok();
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
         }
     }
 }
